@@ -1,9 +1,9 @@
+import FormModal from "@/components/FormModal";
 import Pagination from "@/components/Pagination";
 import Table from "@/components/Table";
 import TableSearch from "@/components/TableSearch";
 import { resultsData, role } from "@/lib/data";
 import Image from "next/image";
-import Link from "next/link";
 
 type Result = {
   id: number;
@@ -51,9 +51,9 @@ const columns = [
   },
 ];
 
-const AssignmentListPage = () => {
+const ResultListPage = () => {
   const renderRow = (item: Result) => (
-    <tr key={item.id} className="border-b border-gray-200 even:bg-slate-50 text-sm hover:bg-lamaPurpleLight">
+    <tr key={item.id} className="border-b border-gray-200 even:bg-slate-50 text-sm hover:bg-purpleLight">
       <td className="flex items-center gap-4 p-4">{item.subject}</td>
       <td>{item.student}</td>
       <td className="hidden md:table-cell">{item.score}</td>
@@ -62,16 +62,13 @@ const AssignmentListPage = () => {
       <td className="hidden md:table-cell">{item.date}</td>
       <td>
         <div className="flex items-center gap-2">
-          <Link href={`/list/teachers/${item.id}`}>
-            <button className="w-7 h-7 flex items-center justify-center rounded-full bg-skyBlue">
-              <Image src="/edit.png" width={16} height={16} alt="" />
-            </button>
-          </Link>
-          {role === "admin" && (
-            <button className="w-7 h-7 flex items-center justify-center rounded-full bg-purple">
-              <Image src="/delete.png" width={16} height={16} alt="" />
-            </button>
-          )}
+          {role === "admin" ||
+            (role === "teacher" && (
+              <>
+                <FormModal table="result" type="update" data={item} />
+                <FormModal table="result" type="delete" id={item.id} />
+              </>
+            ))}
         </div>
       </td>
     </tr>
@@ -91,11 +88,7 @@ const AssignmentListPage = () => {
             <button className="w-8 h-8 flex items-center justify-center rounded-full bg-yellow">
               <Image src="/sort.png" alt="" width={14} height={14} />
             </button>
-            {role === "admin" && (
-              <button className="w-8 h-8 flex items-center justify-center rounded-full bg-yellow">
-                <Image src="/plus.png" width={14} height={14} alt="" />
-              </button>
-            )}
+            {role === "admin" || (role === "teacher" && <FormModal table="result" type="create" />)}
           </div>
         </div>
       </div>
@@ -107,4 +100,4 @@ const AssignmentListPage = () => {
   );
 };
 
-export default AssignmentListPage;
+export default ResultListPage;

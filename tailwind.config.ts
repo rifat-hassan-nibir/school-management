@@ -10,7 +10,7 @@ const config: Config = {
       },
       colors: {
         skyBlue: "#C3EBFA",
-        lightSkyBlue: "#EDF9FD",
+        skyBlueLight: "#EDF9FD",
         purple: "#CFCEFF",
         purpleLight: "#F1F0FF",
         yellow: "#FAE27C",
